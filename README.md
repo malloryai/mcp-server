@@ -5,6 +5,8 @@
 
 Mallory provides a robust source of cyber and threat intelligence. This MCP server exposes the Mallory API to AI agents via the [malloryapi](https://github.com/malloryai/malloryapi) Python client, with tools for vulnerabilities, threat actors, malware, exploits, organizations, attack patterns, breaches, products, advisories, stories, mentions, search, and sources.
 
+Once connected, your AI assistant (Cursor, Claude Desktop, or another MCP client) can look up CVEs, threat actors, malware, and more directly from Mallory—no copy-pasting from the dashboard.
+
 ## Prerequisites
 
 - Python 3.11 or higher
@@ -47,16 +49,41 @@ Or use the installed entry point:
 uv run mallory-mcp-server
 ```
 
-### Claude Desktop
+## How to use
 
-Add to `claude_desktop_config.json`:
+1. **Install** (see above): clone the repo, run `uv sync`.
+2. **Get an API key** at [Mallory](https://mallory.ai) and set `MALLORY_API_KEY` in your environment or in your MCP config.
+3. **Connect your AI client** using one of the configs below.
+4. **Use the tools** by asking your assistant to query Mallory. For example:
+   - _"Look up CVE-2024-1234 and summarize the risk."_
+   - _"List threat actors trending in the last 7 days."_
+   - _"Find vulnerabilities that are known to be exploited."_
+   - _"Search for intelligence on APT28."_
+   - _"What malware is associated with technique T1566?"_
+
+The assistant will call the MCP tools automatically; you don’t need to invoke tool names yourself.
+
+### Cursor
+
+In Cursor, open **Settings → MCP** and add a server. If you installed the server in `~/projects/mallory-mcp-server`:
+
+| Field   | Value                                                |
+| ------- | ---------------------------------------------------- |
+| Name    | MalloryAI (or any label)                             |
+| Command | `uv`                                                 |
+| Args    | `run`, `mallory-mcp-server`                          |
+| Cwd     | `~/projects/mallory-mcp-server` (or your clone path) |
+| Env     | `MALLORY_API_KEY` = your API key                     |
+
+Or add to your Cursor MCP config file (e.g. `~/.cursor/mcp.json`):
 
 ```json
 {
   "mcpServers": {
     "MalloryAI": {
-      "command": "mallory-mcp-server",
-      "args": [],
+      "command": "uv",
+      "args": ["run", "mallory-mcp-server"],
+      "cwd": "/path/to/your/mallory-mcp-server",
       "env": {
         "MALLORY_API_KEY": "your_api_key_here"
       }
@@ -65,7 +92,11 @@ Add to `claude_desktop_config.json`:
 }
 ```
 
-Or run with uv (from the project directory):
+Replace `/path/to/your/mallory-mcp-server` with the path where you cloned this repo.
+
+### Claude Desktop
+
+Clone this repo and point Claude at it. In `claude_desktop_config.json`:
 
 ```json
 {
@@ -81,6 +112,8 @@ Or run with uv (from the project directory):
   }
 }
 ```
+
+Replace `cwd` with the path where you ran `git clone` (e.g. `~/projects/mallory-mcp-server`). Run `uv sync` in that directory once before using Claude.
 
 ## Tools
 
