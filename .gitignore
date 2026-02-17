@@ -1,33 +1,28 @@
-# Python-generated files
+# Python
 __pycache__/
 *.py[oc]
 build/
 dist/
 wheels/
 *.egg-info/
+src/mallorymcp/_version.py
 
 # Virtual environments
-venv/
-ENV/
-env/
 .venv/
+venv/
 
 # Environment variables
 .env
 .env.local
 .env.production
 
-# Editor directories
-/.idea
-/.vscode
-/.zed
+# Editors
+.idea/
+.vscode/
+.zed/
+
+# OS
+.DS_Store
 
 # Logs
 *.log
-
-# PDM (project uses uv)
-.pdm-python
-pdm.lock
-
-# Miscellaneous
-.DS_Store

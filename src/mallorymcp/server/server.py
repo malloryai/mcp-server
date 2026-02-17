@@ -8,7 +8,7 @@ from mcp.server.fastmcp import FastMCP
 from ..config import MALLORY_API_KEY, MALLORY_BASE_URL
 from ..utils.debug import debug_log
 
-mcp = FastMCP("MalloryAI")
+mcp = FastMCP("Mallory")
 
 client = AsyncMalloryApi(
     api_key=MALLORY_API_KEY or None,
@@ -21,7 +21,9 @@ def load_tools():
     tools_dir = Path(__file__).resolve().parent.parent / "tools"
     for _, module_name, _ in pkgutil.iter_modules([str(tools_dir)]):
         if module_name != "__init__":
-            importlib.import_module(f"mallory.mcp.tools.{module_name}")
+            importlib.import_module(
+                f"mallorymcp.tools.{module_name}"
+            )
             debug_log(f"Loaded tool: {module_name}")
 
 

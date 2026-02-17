@@ -1,46 +1,72 @@
 [project]
-name = "mallory-mcp-server"
-version = "0.2.0"
-description = "MalloryAI Intelligence MCP Server"
+name = "mallorymcp"
+dynamic = ["version"]
+description = "Mallory MCP Server — threat intelligence tools for AI agents"
 authors = [
-    { name = "Mallory Team", email = "hello@mallory.ai" },
+    { name = "Mallory", email = "hello@mallory.ai" },
 ]
 license = { text = "Apache-2.0" }
 readme = "README.md"
 requires-python = ">=3.11"
+keywords = ["mallory", "mcp", "threat-intelligence", "cybersecurity"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Typing :: Typed",
+]
 dependencies = [
     "malloryapi>=0.1.1",
     "mcp[cli]>=1.6.0",
 ]
 
+[project.scripts]
+mallorymcp = "mallorymcp.app:main"
+
 [project.urls]
-Homepage = "https://github.com/malloryai/mallory-mcp-server"
-Documentation = "https://github.com/malloryai/mallory-mcp-server#readme"
-Repository = "https://github.com/malloryai/mallory-mcp-server.git"
-Issues = "https://github.com/malloryai/mallory-mcp-server/issues"
+Homepage = "https://mallory.ai"
+Documentation = "https://github.com/malloryai/mallorymcp#readme"
+Repository = "https://github.com/malloryai/mallorymcp"
+Issues = "https://github.com/malloryai/mallorymcp/issues"
 
 [project.optional-dependencies]
-lint = [
-    "ruff>=0.8",
-]
-tools = [
-    "pre-commit>=4.1.0",
-]
-
-[project.scripts]
-mallory-mcp-server = "mallory.mcp.app:main"
+lint = ["ruff>=0.8"]
+test = ["pytest>=8.0", "pytest-asyncio>=0.24"]
 
 [build-system]
-requires = ["setuptools>=68.0.0", "wheel>=0.40.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
 
-[tool.setuptools]
-py-modules = []
-packages = ["mallory", "mallory.mcp"]
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+version_scheme = "no-guess-dev"
+local_scheme = "no-local-version"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/mallorymcp/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mallorymcp"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src/mallorymcp", "/tests", "README.md", "LICENSE.md"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 88
 target-version = "py311"
+src = ["src"]
+exclude = ["src/mallorymcp/_version.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
