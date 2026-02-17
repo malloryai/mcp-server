@@ -55,6 +55,20 @@ Add the server to your MCP client config. Pick one of the options below.
 }
 ```
 
+**Claude Code** — run this command:
+
+```bash
+claude mcp add --transport stdio Mallory -- uvx mallorymcp
+```
+
+This stores the config in `~/.claude.json` (local scope, current project). To share it with your team, use project scope instead:
+
+```bash
+claude mcp add --transport stdio --scope project Mallory -- uvx mallorymcp
+```
+
+This writes to `.mcp.json` in the project root, which can be committed to git.
+
 > `uvx` downloads and runs the package automatically — no install step needed. If you prefer to install it yourself, see [Alternative: pip install](#alternative-pip-install) below.
 
 ### 3. Restart your AI client and start using it
