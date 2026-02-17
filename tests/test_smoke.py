@@ -10,7 +10,7 @@ def test_import():
 
 def test_server_initializes():
     """Server initializes and loads all tools."""
-    from mallorymcp.server.server import mcp, load_tools
+    from mallorymcp.server.server import load_tools, mcp
 
     load_tools()
     assert mcp.name == "Mallory"
